@@ -13,6 +13,7 @@
 /********************************************
 * Include
 ********************************************/
+#include <stdlib.h>
 #include "llist.h"
 #include "../Error/error.h"
 #include "../type.h"
@@ -71,7 +72,7 @@ llist_t * LlistCreate(eb_t *eb)
 * Change Records:
 *  >> (18/Fev/2018): Create the function
 *----------------------------------------------*/
-void * LlistDel(llist_t * llist, node_t * curr)
+void LlistDel(llist_t * llist, node_t * curr)
 {
     node_t *next, *prev;
     next = curr->next;

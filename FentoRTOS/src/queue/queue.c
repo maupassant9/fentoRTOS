@@ -14,25 +14,16 @@
 /********************************************
 * Include
 ********************************************/
+#include <stdlib.h>
+#include "../Error/error.h"
 #include "../type.h"
+#include "queue.h"
 
-#define CIR_ADD(data, max_val) {data++; if(data>=max_val) data = 0;}
+#define CIR_ADD(data,max_val) {data++; if(data>=max_val) {data = 0;}}
 /********************************************
 * Internal Function Declaration
 ********************************************/
-//Data structure for queue structure
-// only for internal use.
-typedef struct qmem_t{
-    //head position of queue
-    uint8_t head;
-    //tail position of queue
-    uint8_t tail;
-    //the memory buffer for queue
-    void *mem;
-    //a mark for empty or not
-    uint8_t status;
-}qmem_t;
-typedef qmem_t * queue_t;
+
 
 /********************************************
 * Internal Types and Variables
@@ -46,12 +37,13 @@ typedef qmem_t * queue_t;
 /********************************************
 * Functions
 ********************************************/
-queue_t QueueCreate(eb_t * eb){
-    queue_t queue = (queue)malloc(sizeof(qmem_t));
+queue_t QueueCreate(eb_t *eb)
+{
+    queue_t queue = (queue_t)malloc(sizeof(qmem_t));
     if(queue == NULL){
         eb->type = EB_TYPE_ERROR;
         eb->code = MEMORY_ALLOC_ERR;
-        return;
+        return NULL;
     }
     queue->mem = malloc(sizeof(QUEUE_DATA_TYPE)*QUEUE_LENGTH);
     if(queue->mem == NULL)
@@ -59,7 +51,7 @@ queue_t QueueCreate(eb_t * eb){
         eb->type = EB_TYPE_ERROR;
         eb->code = MEMORY_ALLOC_ERR;
         free(queue);
-        return;
+        return NULL;
     }
     queue->head = 0;
     queue->tail = 0;
@@ -83,18 +75,19 @@ void Enqueue(queue_t queue, void * ele, eb_t * eb)
         return NULL;
     }
     data = (QUEUE_DATA_TYPE *)queue->mem;
-    data[tail] = *(QUEUE_DATA_TYPE *)ele;
+    data[queue->tail] = *(QUEUE_DATA_TYPE *)ele;
     eb->type = EB_TYPE_NOERROR;
     //if not full
-    CIR_ADD(tail,QUEUE_LENGTH);
-    if(head == tail) queue->status = QUEUE_STATUS_FULL;
-    else queue->status == QUEUE_STATUS_NOT_FULL_NOT_EMPTY;
+    CIR_ADD(queue->tail,QUEUE_LENGTH);
+    if(queue->head == queue->tail) queue->status = QUEUE_STATUS_FULL;
+    else queue->status = QUEUE_STATUS_NOT_FULL_NOT_EMPTY;
 }
 
 //return the address of the element
 void * Dequeue(queue_t queue, eb_t * eb)
 {
     void * return_val;
+    QUEUE_DATA_TYPE *data;
     //if it is empty.
     if(queue->status == QUEUE_STATUS_EMPTY)
     {
@@ -104,16 +97,16 @@ void * Dequeue(queue_t queue, eb_t * eb)
     }
 
     data = (QUEUE_DATA_TYPE *)queue->mem;
-    return_val = (void *)&data[head];
+    return_val = (void *)&data[queue->head];
 
-    CIR_ADD(head,QUEUE_LENGTH);
-    if(head == tail) queue->status = QUEUE_STATUS_EMPTY;
+    CIR_ADD(queue->head,QUEUE_LENGTH);
+    if(queue->head == queue->tail) queue->status = QUEUE_STATUS_EMPTY;
     else queue->status = QUEUE_STATUS_NOT_FULL_NOT_EMPTY;
     eb->type = EB_TYPE_NOERROR;
     return return_val;
 }
 
-boot_t IsEmpty(queue_t queue)
+bool_t IsEmpty(queue_t queue)
 {
     if(queue->status == QUEUE_STATUS_EMPTY)
     {

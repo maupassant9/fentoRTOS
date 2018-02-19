@@ -26,6 +26,7 @@
 //Error block code for type error
 #define MEMORY_ALLOC_ERR 0x01
 #define MEMORY_FULL_ERR 0x02
+#define MEMORY_EMPTY_ERR 0x03
 
 
 /********************************************

@@ -1,39 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "src/llist/llist.h"
+#include "src/queue/queue.h"
+
 /*   Teste para Linked list */
 int main()
 {
-    llist_t *list;
+    uint8_t data[10], cnt;
+    uint8_t *val;
     eb_t eb;
-    node_t *curr;
-    char cnt = 0, num[200];
+    queue_t queue = QueueCreate(&eb);
 
-    list = LlistCreate(&eb);
-    curr = list->head;
-    for(cnt = 0; cnt < 100; cnt++){
-        num[cnt] = cnt;
-        LlistInsertAfter(list, curr, NodeCreate(&num[cnt],&eb));
-        curr = list->tail;
-    }
-    num[100] = 100;
-    curr = list->head;
-    LlistInsertBefore(list, curr, NodeCreate(&num[100],&eb));
-    for(cnt = 0; cnt < 3; cnt++)
-    {
-        curr = curr->next;
-    }
-    printf("curr value = %d", *(char*)curr->data);
-    LlistDel(list,curr);
 
-    for(curr = list->head; curr != NULL; curr = curr->next)
+    for(cnt = 0; cnt < 10; cnt++)
+        data[cnt] = cnt;
+
+    for(cnt = 0; cnt < 12; cnt++)
     {
-        printf("-- %d --", *(char*)curr->data);
+        Enqueue(queue,&data[cnt%10],&eb);
+        if(eb.type == EB_TYPE_ERROR)
+            printf("ERROR!\n");
     }
-    printf("\n");
-    for(curr = list->tail;curr !=NULL; curr = curr->prev)
+    Enqueue(queue,&data[2],&eb);
+    printf("head: %d, tail: %d\n",queue->head, queue->tail);
+    Enqueue(queue,&data[6],&eb);
+    printf("head: %d, tail: %d\n",queue->head, queue->tail);
+    Enqueue(queue,&data[8],&eb);
+    printf("head: %d, tail: %d\n",queue->head, queue->tail);
+    printf("DEQUEUE: %d -- ",*(uint8_t *)Dequeue(queue,&eb));
+    printf("head: %d, tail: %d\n",queue->head, queue->tail);
+    printf("DEQUEUE: %d -- ",*(uint8_t *)Dequeue(queue,&eb));
+    printf("head: %d, tail: %d\n",queue->head, queue->tail);
+    for(cnt = 0; cnt < 100; cnt++)
     {
-        printf("-- %d --", *(char*)curr->data);
+        val = (uint8_t *)Dequeue(queue,&eb);
+        if(val != NULL) printf("DEQUEUE: %d -- ",*val);
+        else printf("DEQUEUE: -- ");
+        printf("head: %d, tail: %d\n",queue->head, queue->tail);
+        if(eb.type == EB_TYPE_ERROR)
+            printf("ERROR!\n");
     }
     return 0;
 }
