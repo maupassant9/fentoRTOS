@@ -2,49 +2,49 @@
 * FileName: llist.c
 * Author: Dong Xia
 * This is source file of linked list.
-* The linked list here is a double linked 
+* The linked list here is a double linked
 * list.
 *
 * Change Records:
-*      >> (18/Fev/2018): 
+*      >> (18/Fev/2018):
 *
 */
 
 /********************************************
-* Include 
+* Include
 ********************************************/
 #include "llist.h"
-#include "../src/Error/error.h"
-#include "../src/type.h"
+#include "../Error/error.h"
+#include "../type.h"
 
 /********************************************
-* Internal Function Declaration 
+* Internal Function Declaration
 ********************************************/
 
 
 
 /********************************************
-* Internal Types and Variables 
+* Internal Types and Variables
 ********************************************/
 
 /********************************************
-* External Variables 
+* External Variables
 ********************************************/
 
 
 /********************************************
-* Functions 
+* Functions
 ********************************************/
-/*------------------------------------------------ 
+/*------------------------------------------------
 * FuncName: LlistCreate
-* Descriptions: Create a linked list structure. 
+* Descriptions: Create a linked list structure.
 * Paras:
 *  >> eb_t *: error block, should be checked
 * after calling this function.
-* Return: 
+* Return:
 *  >> llist_t *: a created linked list
-* Change Records: 
-*  >> (18/Fev/2018): Create the function 
+* Change Records:
+*  >> (18/Fev/2018): Create the function
 *----------------------------------------------*/
 llist_t * LlistCreate(eb_t *eb)
 {
@@ -60,16 +60,16 @@ llist_t * LlistCreate(eb_t *eb)
     return list;
 }
 
-/*------------------------------------------------ 
+/*------------------------------------------------
 * FuncName: LlistDel
 * Descriptions: Delete the node in the linked list
 * Paras:
 *  >> llist_t * : a linked list
 *  >> node_t *: Node to be deleted.
-* Return: 
-*  >> 
-* Change Records: 
-*  >> (18/Fev/2018): Create the function 
+* Return:
+*  >>
+* Change Records:
+*  >> (18/Fev/2018): Create the function
 *----------------------------------------------*/
 void * LlistDel(llist_t * llist, node_t * curr)
 {
@@ -89,19 +89,20 @@ void * LlistDel(llist_t * llist, node_t * curr)
     else
         prev->next = next;
 
+    free(curr);
 }
 
-/*------------------------------------------------ 
+/*------------------------------------------------
 * FuncName: LlistInsertBefore
 * Descriptions: Insert before a node
 * Paras:
 *  >> llist *: an linked list
 *  >> node_t *: a node to be inserted before
 *  >> node_t *: a node to insert
-* Return: 
-*  >> 
-* Change Records: 
-*  >> (18/Fev/2018): Create the function 
+* Return:
+*  >>
+* Change Records:
+*  >> (18/Fev/2018): Create the function
 *----------------------------------------------*/
 void LlistInsertBefore(llist_t * list, node_t * curr, node_t * new_node)
 {
@@ -110,31 +111,39 @@ void LlistInsertBefore(llist_t * list, node_t * curr, node_t * new_node)
     new_node->prev = prev;
     new_node->next = curr;
     curr->prev = new_node;
-    
+
     //if new node is added to head
     if(prev == NULL)
         list->head = new_node;
-    else 
+    else
         prev->next = new_node;
 }
 
 
-/*------------------------------------------------ 
+/*------------------------------------------------
 * FuncName: LlistInsetAfter
-* Descriptions: Insert after a node 
+* Descriptions: Insert after a node
 * Paras:
 *  >> llist *: an linked list
 *  >> node_t *: a node to be inserted after
 *  >> node_t *: a node to insert
-* Return: 
-*  >> 
-* Change Records: 
-*  >> (18/Fev/2018): Create the function 
+* Return:
+*  >>
+* Change Records:
+*  >> (18/Fev/2018): Create the function
 *----------------------------------------------*/
 void LlistInsertAfter(llist_t * list, node_t * curr, node_t * new_node)
 {
     node_t *next;
-    
+
+    if (curr == NULL)
+    {
+        new_node->next = list->head;
+        if(list->head == NULL) list->tail = new_node;
+        list->head = new_node;
+        new_node->prev = NULL;
+        return;
+    }
     next = curr->next;
 
     curr->next = new_node;
@@ -148,16 +157,16 @@ void LlistInsertAfter(llist_t * list, node_t * curr, node_t * new_node)
 
 
 
-/*------------------------------------------------ 
-* FuncName: NodeCreate 
-* Descriptions: Create a node for linked list. 
+/*------------------------------------------------
+* FuncName: NodeCreate
+* Descriptions: Create a node for linked list.
 * Paras:
 *  >> void * : a data structure
 *  >> eb_t * : error block.
-* Return: 
+* Return:
 *  >> node_t * : a created node
-* Change Records: 
-*  >> (18/Fev/2018): Create the function 
+* Change Records:
+*  >> (18/Fev/2018): Create the function
 *----------------------------------------------*/
 node_t * NodeCreate(void * data, eb_t * eb)
 {
