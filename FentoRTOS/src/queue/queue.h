@@ -1,11 +1,11 @@
 
 /*
-* FileName:
+* FileName: queue.h
 * Author: Dong Xia
-* This is head file of
+* This is head file of queue.
 *
 * Change Records:
-*      >> (29/Dec/2017): Creation of file
+*      >> (19/Fev/2018): Creation of file
 *
 */
 
@@ -50,10 +50,71 @@ typedef qmem_t* queue_t;
 /********************************************
 * Function prototype
 ********************************************/
+/*------------------------------------------------
+* FuncName: QueueCreate
+* Descriptions: Allocate the memory for queue
+* and initilate the data structure of queue.
+* Paras:
+*  >> eb_t *: error block
+* Return:
+*  >> queue_t: queue handle
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 queue_t QueueCreate(eb_t * eb);
+
+/*------------------------------------------------
+* FuncName: Enqueue
+* Usage: Enqueue
+* Paras:
+*  >> queue: queue structure
+*  >> void *: queue element that to be added to queue
+*     should be the address of the element of the queue
+*  >> eb_t *: error block
+* Return:
+*  >> 
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 void Enqueue(queue_t queue, void * ele, eb_t * eb);
+
+/*------------------------------------------------
+* FuncName: Dequeue
+* Usage: Dequeue
+* Paras:
+*  >> queue: queue structure
+*  >> eb_t *: error block
+* Return:
+*  >> void *: queue element that to be added to queue
+*     should be the address of the element of the queue
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 void *Dequeue(queue_t queue, eb_t * eb);
+
+/*------------------------------------------------
+* FuncName: IsEmpty
+* Usage: Check if the queue is empty
+* Paras:
+*  >> queue: queue structure
+* Return:
+*  >> bool_t: true for empty; false for not empty
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 bool_t IsEmpty(queue_t queue);
+
+/*------------------------------------------------
+* FuncName: IsFull
+* Usage: Check if the queue is full
+* Paras:
+*  >> queue: queue structure
+* Return:
+*  >> bool_t: true for full; false for not full
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 bool_t IsFull(queue_t queue);
+
 #endif /* _FENTORTOS_SRC_QUEUE_QUEUE_H_ */
 

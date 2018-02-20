@@ -7,7 +7,8 @@
 * The maximum size of Queue can be 256.
 *
 * Change Records:
-*      >> (18/Fev/2018):
+*      >> (18/Fev/2018):file created
+*      >> (19/Fev/2018):add more comments
 *
 */
 
@@ -37,6 +38,18 @@
 /********************************************
 * Functions
 ********************************************/
+
+/*------------------------------------------------
+* FuncName: QueueCreate
+* Descriptions: Allocate the memory for queue
+* and initilate the data structure of queue.
+* Paras:
+*  >> eb_t *: error block
+* Return:
+*  >> queue_t: queue handle
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 queue_t QueueCreate(eb_t *eb)
 {
     queue_t queue = (queue_t)malloc(sizeof(qmem_t));
@@ -61,9 +74,20 @@ queue_t QueueCreate(eb_t *eb)
     return queue;
 }
 
-//ele: should be the address of the element of the queue
-//for example: for an pointer to point to structure, this
-// should be the address of this pointer: &ptr_str;
+
+/*------------------------------------------------
+* FuncName: Enqueue
+* Descriptions: Enqueue
+* Paras:
+*  >> queue: queue structure
+*  >> void *: queue element that to be added to queue
+*     should be the address of the element of the queue
+*  >> eb_t *: error block
+* Return:
+*  >> 
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 void Enqueue(queue_t queue, void * ele, eb_t * eb)
 {
     QUEUE_DATA_TYPE *data;
@@ -83,7 +107,18 @@ void Enqueue(queue_t queue, void * ele, eb_t * eb)
     else queue->status = QUEUE_STATUS_NOT_FULL_NOT_EMPTY;
 }
 
-//return the address of the element
+/*------------------------------------------------
+* FuncName: Dequeue
+* Descriptions: Dequeue
+* Paras:
+*  >> queue: queue structure
+*  >> eb_t *: error block
+* Return:
+*  >> void *: queue element that to be added to queue
+*     should be the address of the element of the queue
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 void * Dequeue(queue_t queue, eb_t * eb)
 {
     void * return_val;
@@ -106,6 +141,17 @@ void * Dequeue(queue_t queue, eb_t * eb)
     return return_val;
 }
 
+
+/*------------------------------------------------
+* FuncName: IsEmpty
+* Descriptions: Check if the queue is empty
+* Paras:
+*  >> queue: queue structure
+* Return:
+*  >> bool_t: true for empty; false for not empty
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 bool_t IsEmpty(queue_t queue)
 {
     if(queue->status == QUEUE_STATUS_EMPTY)
@@ -115,6 +161,16 @@ bool_t IsEmpty(queue_t queue)
     return FALSE;
 }
 
+/*------------------------------------------------
+* FuncName: IsFull
+* Descriptions: Check if the queue is full
+* Paras:
+*  >> queue: queue structure
+* Return:
+*  >> bool_t: true for full; false for not full
+* Change Records:
+*  >> (18/Fev/2018): Create the function
+*----------------------------------------------*/
 bool_t IsFull(queue_t queue)
 {
     if(queue->status == QUEUE_STATUS_FULL)

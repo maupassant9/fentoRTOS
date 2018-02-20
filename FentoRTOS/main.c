@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "src/queue/queue.h"
 
-/*   Teste para Linked list */
+/*   Teste para queue */
 int main()
 {
     uint8_t data[10], cnt;
@@ -14,7 +14,7 @@ int main()
     for(cnt = 0; cnt < 10; cnt++)
         data[cnt] = cnt;
 
-    for(cnt = 0; cnt < 12; cnt++)
+    for(cnt = 0; cnt < 2; cnt++)
     {
         Enqueue(queue,&data[cnt%10],&eb);
         if(eb.type == EB_TYPE_ERROR)
@@ -32,12 +32,18 @@ int main()
     printf("head: %d, tail: %d\n",queue->head, queue->tail);
     for(cnt = 0; cnt < 100; cnt++)
     {
-        val = (uint8_t *)Dequeue(queue,&eb);
-        if(val != NULL) printf("DEQUEUE: %d -- ",*val);
-        else printf("DEQUEUE: -- ");
-        printf("head: %d, tail: %d\n",queue->head, queue->tail);
+        Enqueue(queue,&data[8],&eb);
+        printf("Enqueue--> head: %d, tail: %d\n",queue->head, queue->tail);
+        Dequeue(queue,&eb);
+        printf("Dequeue--> head: %d, tail: %d\n",queue->head, queue->tail);
         if(eb.type == EB_TYPE_ERROR)
             printf("ERROR!\n");
     }
+    for(cnt = 0; cnt < 20; cnt++)
+    {
+        Enqueue(queue,&data[6],&eb);
+        printf("Enqueue--> head: %d, tail: %d\n",queue->head, queue->tail);
+    }
+
     return 0;
 }
