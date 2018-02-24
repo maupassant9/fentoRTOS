@@ -1,6 +1,6 @@
 
 /*
-* FileName:
+* FileName: error.h
 * Author: Dong Xia
 * This is head file of
 *

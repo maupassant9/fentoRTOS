@@ -6,7 +6,7 @@
 * list.
 *
 * Change Records:
-*      >> (18/Fev/2018):
+*      >> (18/Fev/2018): file created.
 *
 */
 

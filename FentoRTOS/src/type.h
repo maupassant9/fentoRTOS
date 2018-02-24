@@ -1,6 +1,5 @@
-
 /*
-* FileName:
+* FileName: type.h
 * Author: Dong Xia
 * This is head file of
 *
